@@ -1,5 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+<style>
+        /* Remove as margens padrão do navegador para a barra encostar nas bordas */
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Configuração da sua Tag/Barra Superior */
+        .barra-topo {
+            width: 100%;
+            height: 16px;
+            background-color: #000; /* Cor de fundo (preto, pode mudar) */
+            color: white;           /* Cor do texto, se houver */
+            font-size: 10px;        /* Tamanho da fonte para caber em 16px */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;     /* Garante que fique no fluxo do topo */
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="barra-topo">
+        </div>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
