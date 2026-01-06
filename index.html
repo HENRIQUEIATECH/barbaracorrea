@@ -1,1 +1,431 @@
-barbara correa
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bábara Corrêa - Perfumes</title>    
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        :root {
+            --ouro: #D4AF37;
+            --ouro-escuro: #B8860B;
+            --branco: #ffffff;
+            --preto-luxo: #1a1a1a;
+            --cinza-suave: #f9f9f9;
+            --whatsapp-color: #25d366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background-color: var(--branco);
+            color: var(--preto-luxo);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header e Menu */
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 8%;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-container img { height: 50px; }
+
+        .logo-container p {
+            color: var(--ouro);
+            font-style: italic;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav { display: flex; align-items: center; gap: 30px; }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--preto-luxo);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover { color: var(--ouro); }
+
+        /* Ícone Carrinho */
+        .cart-icon-container {
+            position: relative;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--preto-luxo);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--ouro);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        /* Carrinho Lateral (Drawer) */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 350px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            z-index: 2000;
+            transition: 0.4s;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.active { right: 0; }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-items { flex-grow: 1; overflow-y: auto; }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .cart-footer {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .btn-finalize {
+            width: 100%;
+            background: var(--whatsapp-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-finalize:hover { background: #1ebe57; }
+
+        /* Seções Gerais */
+        .filete-header { height: 2px; background: linear-gradient(to right, transparent, var(--ouro), transparent); width: 100%; }
+        
+        .hero {
+            height: 500px; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            color: white;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://plus.unsplash.com/premium_photo-1738860331028-9103e025522d?q=80&w=717&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+        }
+
+        .hero h2 { font-size: 3.5rem; margin-bottom: 15px; font-weight: 400; }
+
+        .secao-titulo { text-align: center; padding: 60px 0 20px; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 4px; color: var(--ouro-escuro); }
+
+        .produtos-container { padding: 20px 8% 80px; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+
+        /* Card de Produto Corrigido */
+        .card-produto { 
+            background: var(--branco); 
+            border: 1px solid #eaeaea; 
+            padding: 30px; 
+            text-align: center; 
+            transition: 0.4s;
+            overflow: hidden; /* Garante que a imagem não saia do card */
+            position: relative;
+        }
+
+        .card-produto:hover { border-color: var(--ouro); box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+        .card-produto h3 { position: relative; z-index: 10; margin-bottom: 15px; background: white; padding: 5px; }
+
+        .moldura-foto { 
+            overflow: hidden; 
+            position: relative; 
+            z-index: 5; 
+            margin-bottom: 15px;
+        }
+
+        .card-produto img { 
+            width: 100%; 
+            height: 420px; /* Dimensão mais comprida */
+            object-fit: cover; 
+            transition: 0.8s; 
+            display: block;
+        }
+
+        .card-produto:hover img { transform: scale(1.1) rotate(1.5deg); }
+
+        .preco { position: relative; z-index: 10; color: var(--ouro-escuro); font-size: 1.8rem; font-weight: bold; margin: 20px 0; display: block; background: white; }
+
+        .btn-comprar { position: relative; z-index: 10; background-color: var(--preto-luxo); color: var(--ouro); text-decoration: none; padding: 14px 40px; border: 1px solid var(--ouro); font-weight: bold; text-transform: uppercase; transition: 0.3s; cursor: pointer; }
+
+        .secao-historia { background-color: var(--cinza-suave); padding: 100px 15%; text-align: center; border-top: 1px solid #eee; }
+
+        .historia-texto { font-size: 1.2rem; font-style: italic; color: #444; line-height: 2; }
+
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 40px; right: 40px; background-color: var(--whatsapp-color); color: #FFF; border-radius: 50px; text-align: center; z-index: 1000; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+
+        /* Footer */
+        footer { background: #111; color: #fff; padding: 80px 8% 40px; text-align: center; }
+        .footer-logo-png { height: 60px; margin-bottom: 20px; }
+        .footer-divider { height: 1px; background: rgba(255,255,255,0.1); margin: 30px 0; }
+        .copyright-area { color: #888; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-header">
+            <h3>Suas Escolhas</h3>
+            <button onclick="toggleCart()" style="background:none; border:none; font-size: 1.5rem; cursor:pointer;">&times;</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-footer">
+            <span class="total-price" id="cart-total">Total: R$ 0,00</span>
+            <button class="btn-finalize" onclick="enviarPedido()">Finalizar no WhatsApp</button>
+        </div>
+    </div>
+
+    <a href="https://wa.me/556281998181" class="whatsapp-float" target="_blank">
+        <svg width="30" height="30" fill="currentColor" viewBox="0 0 16 16"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg>
+    </a>
+
+    <header>
+        <div class="header-top">
+            <div class="logo-container">
+                <img src="logo2.png" alt="Logo Bábara Corrêa">
+                <img src="logo3.png" alt="Logo Bárbara Corrêa">
+                <p>Perfumes</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Bárbara Corrêa</a></li>
+                    <li><a href="#historia">História</a></li>
+                    <li><a href="#vitrine">Perfumes</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                    <li><a href="https://wa.me/556281998181" target="_blank">WhatsApp</a></li>
+                </ul>
+                <button class="cart-icon-container" onclick="toggleCart()">
+                    <svg width="25" height="25" fill="currentColor" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+                    <span class="cart-count" id="cart-count">0</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div id="vitrine1">
+        <div class="filete-header"></div>
+
+        <section class="hero">
+            <h2>Exclusividade e Brilho</h2>
+            <p>A curadoria definitiva em ouro para momentos eternos.</p>
+        </section>
+
+        <h2 class="secao-titulo" id="vitrine">Coleção em Destaque</h2>
+        <main class="produtos-container" id="vitrine-conteudo"></main>
+
+        <section class="secao-historia" id="historia">
+            <div class="historia-container">
+                <h2>Uma Pequena História do Perfume: A Essência do Tempo</h2><br><br>
+                <div class="historia-texto">
+                    A palavra "perfume" vem do latim per fumum, que significa "através do fumo". Sua jornada começou na Antiguidade, quando nossos ancestrais queimavam ervas e resinas para que o fumo levasse suas preces aos deuses. Dos rituais sagrados do Egito Antigo, onde Cleópatra utilizava óleos perfumados como arma de sedução, até as cortes da Renascença, o perfume sempre foi um símbolo de status e conexão com o divino.<br><br>
+O Glamour: A Joia Invisível<br><br>
+
+Se a roupa é o que mostramos ao mundo, o perfume é o que deixamos para trás. O glamour de uma fragrância não reside apenas no líquido, mas no frasco de cristal, no design da embalagem e, principalmente, na aura de exclusividade que ele cria. No século XX, o perfume tornou-se o acessório definitivo da alta costura. Como dizia Coco Chanel: "Uma mulher que não usa perfume não tem futuro". Ele é o toque final que transforma o comum em extraordinário.<br><br>
+Os Grandes Perfumes: Ícones de uma Era
+
+Ao longo das décadas, algumas fragrâncias transcenderam o tempo e tornaram-se lendas. São composições que definiram gerações:<br>
+
+    Chanel Nº 5: A revolução dos aldeídos que trouxe a modernidade.<br>
+
+    Miss Dior: A celebração do "New Look" e da feminilidade radiante.<br>
+
+    Shalimar (Guerlain): O primeiro grande perfume oriental, inspirado em uma história de amor indiana.<br>
+
+    Opium (YSL): A ousadia e o mistério que marcaram os anos 70 e 80.<br><br>
+
+Essas fragrâncias não são apenas cheiros; são capítulos da história da moda e da arte da perfumaria.
+A Transmutação: O Perfume na Vida da Pessoa<br><br>
+
+O poder real do perfume reside na sua capacidade de transmutação. Ele tem a força de alterar o humor, evocar memórias esquecidas e até moldar a identidade de quem o usa.<br><br>
+
+Quando aplicamos uma fragrância, ocorre uma alquimia: o perfume reage com a pele, tornando-se único. Ele pode ser uma armadura de confiança para uma reunião importante, um convite ao romance em um encontro, ou um abraço reconfortante em um dia solitário. O perfume não apenas adorna o corpo; ele comunica a alma, transformando a presença de alguém em uma lembrança inesquecível.</h4>
+                   
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-wrapper">
+                <img src="logo2.png" alt="Bárbara Corrêa Perfumes" class="footer-logo-png">
+                <img src="loggo.png" alt="Bárbara Corrêa Perfumes" class="footer-logo-png">
+                <div class="footer-content" id="contato">
+                    <p>
+                        <strong>Perfumes</strong> | contato:<br>
+                        barbaracorrea02@gmail.com
+                    </p>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="copyright-area">
+                &copy; 2024 Todos os Direitos Reservados | Bárbara Corrêa - Perfumes
+                <br>
+                <span style="color: var(--ouro); font-size: 0.7rem; letter-spacing: 1px;">Excelência em cada detalhe.</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const whatsappNumber = "556281998181"; 
+        let cart = [];
+
+        const produtos = [
+            { id: 1, titulo: "Coco Chanel", preco: 2490.00, imagem: "https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cGVyZnVtZXN8ZW58MHx8MHx8fDA%3D" },
+            { id: 2, titulo: "COCO Chanel love", preco: 1260.64, imagem: "https://images.unsplash.com/photo-1701291927826-c7775869d822?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHBlcmZ1bWVzfGVufDB8fDB8fHww" },
+            { id: 3, titulo: "Coco Chanel N5", preco: 3150.00, imagem: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8cGVyZnVtZXN8ZW58MHx8MHx8fDA%3D" },
+            // Novos 6 conteiners adicionados abaixo:
+            { id: 4, titulo: "Perfume Elegance", preco: 1850.00, imagem: "https://images.unsplash.com/photo-1622618991746-fe6004db3a47?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fHBlcmZ1bWVzfGVufDB8fDB8fHww" },
+            { id: 5, titulo: "Perfume do Dia", preco: 980.00, imagem: "https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHBlcmZ1bWVzfGVufDB8fDB8fHww" },
+            { id: 6, titulo: "Perfume Energia Pura", preco: 450.00, imagem: "https://images.unsplash.com/photo-1673443143036-ef6eec48c595?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHBlcmZ1bWVzfGVufDB8fDB8fHww" },
+            { id: 7, titulo: "Momento Classic", preco: 2100.00, imagem: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fHBlcmZ1bWVzfGVufDB8fDB8fHww" },
+            { id: 8, titulo: "Inesquecível", preco: 720.00, imagem: "https://images.unsplash.com/photo-1705572722888-844a44ceecd9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bXVsaGVyJTIwY29tJTIwcGVyZnVtZXN8ZW58MHx8MHx8fDA%3D" },
+            { id: 9, titulo: "Bottega", preco: 5400.00, imagem: "https://images.unsplash.com/photo-1760113559708-84e7a148ec68?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fG11bGhlciUyMGNvbSUyMHBlcmZ1bWVzfGVufDB8fDB8fHww" }
+        ];
+
+        function renderizarLoja() {
+            const vitrine = document.getElementById('vitrine-conteudo');
+            vitrine.innerHTML = produtos.map(p => `
+                <div class="card-produto">
+                    <h3>${p.titulo}</h3>
+                    <div class="moldura-foto"><img src="${p.imagem}" alt="${p.titulo}"></div>
+                    <span class="preco">R$ ${p.preco.toLocaleString('pt-br', {minimumFractionDigits: 2})}</span>
+                    <button class="btn-comprar" onclick="addToCart(${p.id})">Adicionar ao Carrinho</button>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('active');
+        }
+
+        function addToCart(id) {
+            const produto = produtos.find(p => p.id === id);
+            cart.push(produto);
+            updateCartUI();
+            if(!document.getElementById('cart-drawer').classList.contains('active')) toggleCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            
+            cartCount.innerText = cart.length;
+            
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.titulo}</span>
+                    <span>R$ ${item.preco.toLocaleString('pt-br', {minimumFractionDigits: 2})} 
+                    <button onclick="removeFromCart(${index})" style="color:red; border:none; background:none; cursor:pointer; margin-left:10px;">&times;</button></span>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((acc, curr) => acc + curr.preco, 0);
+            cartTotal.innerText = `Total: R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}`;
+        }
+
+        function enviarPedido() {
+            if (cart.length === 0) return alert("Seu carrinho está vazio!");
+            
+            let mensagem = "Olá Bábara Corrêa! Tenho interesse nas seguintes jóias:\n\n";
+            cart.forEach(item => {
+                mensagem += `- ${item.titulo} (R$ ${item.preco.toLocaleString('pt-br', {minimumFractionDigits: 2})})\n`;
+            });
+            
+            const total = cart.reduce((acc, curr) => acc + curr.preco, 0);
+            mensagem += `\n*Total: R$ ${total.toLocaleString('pt-br', {minimumFractionDigits: 2})}*`;
+            
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagem)}`;
+            window.open(url, '_blank');
+        }
+
+        window.onload = renderizarLoja;
+    </script>
+</body>
+</html>
